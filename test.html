@@ -150,15 +150,14 @@
             text-align: center;
         }
         .fost {
-    /* ... your existing styles ... */
+    
     color: white;
-    /* Add a semi-transparent background color */
-    background-color: black; /* White background with 60% opacity */
-
-    /* Add some padding */
+    
+    background-color: black; 
+    
     padding: 10px;
 
-    /* Add a border radius */
+    
     border-radius: 5px;
 }
 
@@ -268,10 +267,10 @@
             } else {
                 // If it's a matrix, create a table to display the result
                 var table = document.createElement('table');
-                table.style.width = '100px'; // Make the table width 100%
-                table.style.height = '100px'; // Make the table width 100%
+                table.style.width = '100px';
+                table.style.height = '100px'; 
                 table.style.fontSize = '50px';
-                table.style.borderCollapse = 'collapse'; // Collapse the borders
+                table.style.borderCollapse = 'collapse'; 
                 table
 
                 for (var i = 0; i < result.length; i++) {
@@ -280,17 +279,17 @@
                     for (var j = 0; j < result[i].length; j++) {
                         var cell = document.createElement('td');
                         cell.textContent = result[i][j];
-                        cell.style.border = '1px solid black'; // Add a border to the cell
-                        cell.style.textAlign = 'center'; // Center the text
-                        cell.style.padding = '5px'; // Add some padding
-                        cell.style.fontSize = '30px'; // Increase the font size
+                        cell.style.border = '1px solid black'; 
+                        cell.style.textAlign = 'center'; 
+                        cell.style.padding = '5px'; 
+                        cell.style.fontSize = '30px';
                         row.appendChild(cell);
                     }
 
                     table.appendChild(row);
                 }
 
-                // Append the table to the result div
+                // Append the table to the resultdiv
                 resultDiv.appendChild(table);
             }
         } catch (error) {
@@ -305,7 +304,7 @@
         function createMatrix() {
             let matrixName = document.getElementById('matrixName').value;
 
-            // Check if the matrix name already exists
+            // Check if the matrix name already exists in the code :)
             if (matrixNames.includes(matrixName)) {
                 alert('This matrix name is already used. Please choose a different name.');
                 return;
@@ -357,7 +356,7 @@
             // Append the dropdown to the matrix div
             matrixDiv.appendChild(operationsDropdown);
 
-            // Add a button to perform the selected operation
+            
             let operationButton = document.createElement('button');
             operationButton.textContent = 'Perform Operation';
             operationButton.style.padding = '3px 5px'; // Reduce the padding
@@ -372,10 +371,10 @@
         }
 
         function evaluateMatrixExpression(expression, matrices) {
-            // Define a math.js scope with your matrices
+            
             var scope = matrices;
 
-            // Evaluate the expression
+            
             var result = math.evaluate(expression, scope);
 
             return result;
@@ -408,10 +407,10 @@
                 resultDiv.style.fontSize = '30px';
             } else {
                 var table = document.createElement('table');
-                table.style.width = '100px'; // Make the table width 100%
-                table.style.height = '100px'; // Make the table width 100%
+                table.style.width = '100px'; 
+                table.style.height = '100px'; 
                 table.style.fontSize = '50px';
-                table.style.borderCollapse = 'collapse'; // Collapse the borders
+                table.style.borderCollapse = 'collapse'; 
                 table
 
                 for (var i = 0; i < result.length; i++) {
@@ -419,9 +418,9 @@
                     for (var j = 0; j < result[i].length; j++) {
                         var cell = document.createElement('td');
                         cell.textContent = result[i][j];
-                        cell.style.border = '1px solid black'; // Add a border to the cell
-                        cell.style.textAlign = 'center'; // Center the text
-                        cell.style.padding = '5px'; // Add some padding
+                        cell.style.border = '1px solid black'; 
+                        cell.style.textAlign = 'center'; 
+                        cell.style.padding = '5px'; 
                         cell.style.fontSize = '30px'; // 
                         cell.textContent = result[i][j];
                         row.appendChild(cell);
