@@ -1,0 +1,436 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .al {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        h1 {
+            color: #444;
+            text-align: center;
+        }
+
+        .sec {
+            margin-top: 5%;
+            width: 80%;
+            max-width: 411.906px;
+            height: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+            .input-group input {
+                width: calc(100% - 210px);
+                margin: 0 10px;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+        button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+            button:hover {
+                background-color: #555;
+            }
+
+        #matrices {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .matrix-div {
+            margin: 20px;
+        }
+
+            .matrix-div input {
+                width: 50px;
+                margin: 5px;
+                padding: 5px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+        .MC {
+            min-height: 200px;
+            min-width: 50%;
+            margin-top: 30px;
+            margin-left: 25px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            overflow-x: auto;
+            overflow-y: auto;
+            float: left;
+        }
+
+        .RT {
+            min-height: 200px;
+            min-width: 50%;
+            margin-top: 30px;
+            margin-left: 25px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            overflow-x: auto;
+            overflow-y: auto;
+            float: left;
+        }
+
+        #matrix-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .matrix {
+            color: white;
+            position: absolute;
+            font-size: 20px;
+            white-space: pre;
+        }
+
+            .matrix:nth-child(odd) {
+                color: green;
+            
+            }
+        @media (min-width: 600px) {
+            .sec {
+                width: 411.906px;
+                height: 326.875px;
+            }
+        }
+        #result table {
+            border-collapse: collapse;
+        }
+
+        #result td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        .fost {
+    /* ... your existing styles ... */
+    color: white;
+    /* Add a semi-transparent background color */
+    background-color: black; /* White background with 60% opacity */
+
+    /* Add some padding */
+    padding: 10px;
+
+    /* Add a border radius */
+    border-radius: 5px;
+}
+
+    </style>
+</head>
+<body>
+
+    <h1 class="fost">Website created by Zemichael Endalkachew</h1>
+   
+
+
+    <div id="matrix-container"></div>
+
+    <div class="al">
+        <div class="sec">
+            <h1>Zematriks Calculator</h1>
+            <div class="input-group">
+                <input type="number" id="rows" name="rows" class="R" placeholder="Number of rows">
+            </div>
+            <div class="input-group">
+                <input type="number" id="columns" name="columns" class="C" placeholder="Number of columns">
+            </div>
+            <div class="input-group">
+                <input type="text" id="matrixName" name="matrixName" placeholder="Matrix Variable Name"><br />
+            </div>
+            <button onclick="createMatrix()" class="Cm">Create Matrix</button>
+            <br />
+            <br />
+            Enter to calculate
+            <input id="calc" class="salc" type="text" placeholder="Enter calculation" />
+            <button onclick="calculate()">Calculate</button>
+        </div>
+
+        <div class="MC">
+            <h1>Matrix inputs</h1>
+            <div id="matrices"></div>
+        </div>
+
+        <div class="RT">
+            <h1>Output</h1>
+            <div id="result"></div>
+        </div>
+
+    </div>
+    
+    <script>
+        var symbols = "0123456789ABCDEF";
+        var streams = [];
+
+        function createMatrixElement() {
+            var element = document.createElement('div');
+            element.classList.add('matrix');
+            element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            element.style.left = Math.random() * window.innerWidth + 'px';
+            document.getElementById('matrix-container').appendChild(element);
+            streams.push({ element: element, speed: Math.random() * 5 + 2 });
+        }
+
+        function fallDown() {
+            for (var i = 0; i < streams.length; i++) {
+                var stream = streams[i];
+                if (stream.element.offsetTop > window.innerHeight) {
+                    document.getElementById('matrix-container').removeChild(stream.element);
+                    streams.splice(i, 1);
+                    i--;
+                } else {
+                    stream.element.style.top = stream.element.offsetTop + stream.speed + 'px';
+                    if (Math.random() < 0.01) {
+                        stream.element.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    }
+                }
+            }
+        }
+
+        setInterval(createMatrixElement, 100);
+        setInterval(fallDown, 50);
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.6.0/math.min.js"></script>
+    <script>
+        var matrixNames = []; // Array to store matrix names
+        var matrices = {}; // Object to store matrices
+
+        function textfind() {
+            var textt = document.getElementById('calc').value;
+            console.log("clicked value", textt);
+            return textt; // Return the value of the input field
+        }
+
+        function calculate() {
+    var expression = textfind();
+    console.log(expression);
+    if (expression) {
+        try {
+            var result = evaluateMatrixExpression(expression, matrices);
+            console.log('eval', result);
+
+            // Clear the result div
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            // Check if the result is a single value or a matrix
+            if (typeof result === 'number') {
+                // If it's a single value, just display it directly
+                resultDiv.textContent = result;
+                resultDiv.style.fontSize = '30px';
+            } else {
+                // If it's a matrix, create a table to display the result
+                var table = document.createElement('table');
+                table.style.width = '100px'; // Make the table width 100%
+                table.style.height = '100px'; // Make the table width 100%
+                table.style.fontSize = '50px';
+                table.style.borderCollapse = 'collapse'; // Collapse the borders
+                table
+
+                for (var i = 0; i < result.length; i++) {
+                    var row = document.createElement('tr');
+
+                    for (var j = 0; j < result[i].length; j++) {
+                        var cell = document.createElement('td');
+                        cell.textContent = result[i][j];
+                        cell.style.border = '1px solid black'; // Add a border to the cell
+                        cell.style.textAlign = 'center'; // Center the text
+                        cell.style.padding = '5px'; // Add some padding
+                        cell.style.fontSize = '30px'; // Increase the font size
+                        row.appendChild(cell);
+                    }
+
+                    table.appendChild(row);
+                }
+
+                // Append the table to the result div
+                resultDiv.appendChild(table);
+            }
+        } catch (error) {
+            console.error('Error evaluating expression:', error);
+            var resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Error evaluating expression: ' + error.message;
+            resultDiv.style.color = 'red'; // Make the error text red
+        }
+    }
+}
+
+        function createMatrix() {
+            let matrixName = document.getElementById('matrixName').value;
+
+            // Check if the matrix name already exists
+            if (matrixNames.includes(matrixName)) {
+                alert('This matrix name is already used. Please choose a different name.');
+                return;
+            }
+
+            matrixNames.push(matrixName); // Add the new matrix name to the array
+
+            let rows = document.getElementById('rows').value;
+            let columns = document.getElementById('columns').value;
+            let matrixDiv = document.createElement('div');
+            matrixDiv.className = 'matrix-div';
+            let matrixLabel = document.createElement('label');
+            matrixLabel.textContent = matrixName;
+            matrixDiv.appendChild(matrixLabel);
+
+            // Create a new matrix in the matrices object
+            matrices[matrixName] = [];
+
+            for (let i = 0; i < rows; i++) {
+                // Create a new row in the matrix
+                matrices[matrixName][i] = [];
+                let rowDiv = document.createElement('div'); // Create a new div for each row
+
+                for (let j = 0; j < columns; j++) {
+                    let input = document.createElement('input');
+                    input.type = 'number';
+                    input.id = matrixName + 'cell' + i + j;
+                    input.oninput = function () {
+                        // Update the matrix value when the input changes
+                        matrices[matrixName][i][j] = Number(this.value);
+                        console.log(matrices); // Log the matrices object to the console
+                    };
+                    rowDiv.appendChild(input); // Append the input to the row div
+                }
+                matrixDiv.appendChild(rowDiv); // Append the row div to the matrix div
+            }
+
+            // Add a dropdown for matrix operations
+            let operationsDropdown = document.createElement('select');
+            operationsDropdown.id = matrixName + '-operations';
+            let operations = ['Inverse', 'Transpose', 'Determinant'];
+            operations.forEach(function (op) {
+                let option = document.createElement('option');
+                option.value = op.toLowerCase();
+                option.textContent = op;
+                operationsDropdown.appendChild(option);
+            });
+
+            // Append the dropdown to the matrix div
+            matrixDiv.appendChild(operationsDropdown);
+
+            // Add a button to perform the selected operation
+            let operationButton = document.createElement('button');
+            operationButton.textContent = 'Perform Operation';
+            operationButton.style.padding = '3px 5px'; // Reduce the padding
+            operationButton.style.fontSize = '9px';
+            operationButton.onclick = function () {
+                performMatrixOperation(matrixName, operationsDropdown.value);
+            };
+            matrixDiv.appendChild(operationButton);
+
+            // Append the matrix div to the matrices container
+            document.getElementById('matrices').appendChild(matrixDiv);
+        }
+
+        function evaluateMatrixExpression(expression, matrices) {
+            // Define a math.js scope with your matrices
+            var scope = matrices;
+
+            // Evaluate the expression
+            var result = math.evaluate(expression, scope);
+
+            return result;
+        }
+
+        function performMatrixOperation(matrixName, operation) {
+            // Perform the selected operation on the matrix
+            let matrix = matrices[matrixName];
+            let result;
+            switch (operation) {
+                case 'inverse':
+                    result = math.inv(matrix);
+                    break;
+                case 'transpose':
+                    result = math.transpose(matrix);
+                    break;
+                case 'determinant':
+                    result = math.det(matrix);
+                    break;
+                default:
+                    alert('Invalid operation');
+                    return;
+            }
+
+            // Display the result in the result div
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            if (typeof result === 'number') {
+                resultDiv.textContent = result;
+                resultDiv.style.fontSize = '30px';
+            } else {
+                var table = document.createElement('table');
+                table.style.width = '100px'; // Make the table width 100%
+                table.style.height = '100px'; // Make the table width 100%
+                table.style.fontSize = '50px';
+                table.style.borderCollapse = 'collapse'; // Collapse the borders
+                table
+
+                for (var i = 0; i < result.length; i++) {
+                    var row = document.createElement('tr');
+                    for (var j = 0; j < result[i].length; j++) {
+                        var cell = document.createElement('td');
+                        cell.textContent = result[i][j];
+                        cell.style.border = '1px solid black'; // Add a border to the cell
+                        cell.style.textAlign = 'center'; // Center the text
+                        cell.style.padding = '5px'; // Add some padding
+                        cell.style.fontSize = '30px'; // 
+                        cell.textContent = result[i][j];
+                        row.appendChild(cell);
+                    }
+                    table.appendChild(row);
+                }
+                resultDiv.appendChild(table);
+            }
+        }
+    </script>
+</body>
+</html>
